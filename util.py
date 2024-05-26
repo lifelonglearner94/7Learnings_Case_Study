@@ -84,7 +84,6 @@ def split_data(X, y, df):
     # Fractions for Train, Validation und Test Sets
     train_frac = 0.6
     val_frac = 0.2
-    test_frac = 0.2
 
     # Calculation of the indices
     train_end = int(train_frac * len(df))
@@ -106,11 +105,12 @@ def split_data(X, y, df):
     return X_train, X_val, X_test, y_train, y_val, y_test, train_dates, val_dates, test_dates
 
 
-def preprocess(X, temp_training_mean, temp_training_std):
+def preprocess(X, temp_training_mean, temp_training_std, i):
     """
     Standadize the data using the training mean and std
     """
-    X[:, :, 0] = (X[:, :, 0] - temp_training_mean) / temp_training_std
+    # z = (x - μ) / σ
+    X[:, :, i] = (X[:, :, i] - temp_training_mean) / temp_training_std
 
     return X
 
