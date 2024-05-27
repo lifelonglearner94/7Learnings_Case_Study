@@ -53,6 +53,7 @@ def fill_missing_dates_and_values(df):
 
     return result_df
 
+
 def df_to_X_y(df, window_size=7):
     """
     Converts a DataFrame into sequences of features (X) and corresponding labels (y) using a specific window size.
@@ -76,6 +77,7 @@ def df_to_X_y(df, window_size=7):
 
     # Convert lists to numpy arrays
     return np.array(X), np.array(y)
+
 
 def split_data(X, y, df):
     """
@@ -129,9 +131,14 @@ def build_and_compile_model(window_size, n_features):
 
     model.compile(loss='binary_crossentropy',
               optimizer="adam",
-              metrics=['accuracy'])
+              metrics=['accuracy', tf.keras.metrics.Precision(), tf.keras.metrics.Recall()])
+
+    # Accuracy: (TP+TN) / (TP+TN+FP+FN) -> Not for imbalanced data
+    # Precision: TP / (TP+FP)
+    # Recall: TP / (TP+FN)
 
     return model
+
 
 def fit_model(model, X_train, X_val, y_train, y_val):
     """
